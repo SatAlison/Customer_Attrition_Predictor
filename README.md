@@ -9,6 +9,7 @@
   - [Data Cleaning](#data-cleaning)
   - [Exploratory Data Analysis](#exploratory-data-analysis)
   - [Data Visualization](#data-visualization)
+  - [Model Selection and Training](#model-selection-and-training)
 - [Insights and Next Steps](#insights-and-next-steps)
   - [Key Findings](#key-findings)
   - [Next Steps](#next-steps)
@@ -17,85 +18,154 @@
 - [References](#references)
 - [Contact Information](#contact-information)
 
+---
+
 ## Project Overview
-The goal of this project is to develop a **supervised machine learning model** to predict **customer attrition (churn)** in a banking environment. The model leverages historical customer data to forecast the likelihood of a client leaving the bank, enabling proactive retention strategies. **XGBoost** was used as the primary model due to its strong performance on tabular data.
+The **Customer Attrition Predictor** is a supervised machine learning project that forecasts the likelihood of a banking customer **churning** (leaving the bank).  
+The project leverages historical customer data, including demographics, account usage, credit behavior, and transaction history, to predict churn and highlight actionable insights for retention.  
+
+The primary model used is **XGBoost**, chosen for its ability to handle **non-linear relationships** and deliver **high predictive performance** on tabular data.
+
+---
 
 ## Motivation and Objectives
-Customer churn is costly for banks. Predicting which customers are at risk allows banks to **retain high-value clients, improve customer experience, and optimize marketing strategies**.  
+Customer churn is a significant challenge in the banking industry because losing clients directly impacts revenue and profitability. Predicting churn allows banks to:
+
+- Identify at-risk customers early.
+- Implement proactive retention strategies.
+- Optimize marketing and loyalty campaigns.
+- Focus resources on high-value clients.
 
 ### Objectives
-- Analyze historical customer data to uncover patterns leading to churn.
-- Build a predictive model to forecast customer attrition.
-- Identify the **most important features** driving churn using feature importance analysis.
-- Evaluate model performance using metrics such as **ROC-AUC** and **classification reports**.
-- Provide actionable next steps for retention strategies.
+- Explore customer data to detect trends and patterns related to churn.
+- Develop a **predictive model** using supervised learning techniques.
+- Evaluate model performance using metrics like **ROC-AUC, F1-score, and confusion matrices**.
+- Identify **key features** driving churn for actionable business insights.
+- Build a **Streamlit app** for interactive prediction and risk visualization.
+
+---
 
 ## Data Source
-The dataset includes historical banking customer data such as demographic information, account details, credit behavior, transaction activity, and engagement metrics.  
-Data was preprocessed for modeling purposes and can be sourced from internal banking records or publicly available churn datasets.
+The dataset includes historical records of bank customers with features such as:
+
+- Demographics: **age, gender, number of dependents**
+- Account & credit: **credit limit, revolving balance, utilization ratio**
+- Engagement & activity: **transaction counts, amount spent, inactivity months**
+- Relationship metrics: **number of products held, tenure with bank**
+
+> Note: Data may be anonymized or sourced from public churn datasets for demonstration purposes.  
+
+---
 
 ## Tools
-**Python** for coding:
-- `Pandas` for data manipulation
-- `NumPy` for numerical operations
-- `Scikit-learn` for preprocessing, model evaluation, and feature selection
-- `XGBoost` for supervised machine learning
-- `Matplotlib` / `Seaborn` for visualization
-- **Jupyter Notebook** / **Streamlit** for interactive development and app deployment
+- **Python** for coding and analysis.
+- **Pandas** and **NumPy** for data manipulation.
+- **Scikit-learn** for preprocessing, modeling, and evaluation.
+- **XGBoost** for supervised classification.
+- **Matplotlib** and **Seaborn** for visualization.
+- **Jupyter Notebook** for interactive development.
+- **Streamlit** for deploying the prediction tool.
+
+---
 
 ## Project Workflow
 
 ### Data Cleaning
-- Handled missing values and corrected inconsistent data entries.
-- Encoded categorical variables for model compatibility.
-- Scaled numeric features using `StandardScaler` for consistent modeling.
+- Handled missing values and inconsistencies in numeric and categorical columns.
+- Encoded categorical variables (e.g., gender, marital status, education, income category) for model compatibility.
+- Scaled numeric features using `StandardScaler` to improve model performance and support distance-based methods like SMOTE.
 
 ### Exploratory Data Analysis
-- Examined distributions of key features such as **tenure, transaction counts, credit utilization, and account balances**.
-- Identified trends between churned and existing customers to guide feature selection.
+- Examined distributions of numeric features like **credit limit, total transaction amount, utilization ratio**, and **months on book**.
+- Identified relationships between churn and categorical variables such as **gender, marital status, and education level**.
+- Visualized correlations between numeric features to detect redundancy or multicollinearity.
+  
+**Example visualizations you can include:**
+- Histograms and boxplots for numeric features (e.g., `Credit_Limit`, `Total_Trans_Amt`)  
+![Histogram Example](path_to_histogram_image.png)
+- Bar charts for categorical features (e.g., `Education_Level`, `Marital_Status`)  
+![Categorical Bar Chart](path_to_bar_chart_image.png)
+- Correlation heatmap of numeric features  
+![Correlation Heatmap](path_to_correlation_heatmap_image.png)
+
+---
 
 ### Data Visualization
-- Created boxplots, histograms, and bar charts to visualize patterns.
-- Highlighted features with significant differences between churned and existing customers.
-- Correlation heatmaps were used to identify relationships among numeric features.
+- Plotted **distributions of churned vs existing customers** for key features.
+- Highlighted differences in transaction behavior, credit utilization, and tenure to identify predictors of churn.
+- Annotated visualizations with percentages and medians for easy interpretation.
+
+---
+
+### Model Selection and Training
+- Evaluated multiple supervised models:
+  - **Logistic Regression**: Baseline linear model for churn prediction.
+  - **Random Forest**: Captures non-linear relationships and provides feature importance.
+  - **Gradient Boosting**: Boosted ensemble for improved predictive accuracy.
+  - **XGBoost**: Selected as final model due to **highest ROC-AUC and F1-score**.
+- Used **SMOTE** for handling class imbalance in training data.
+- Performed **RFECV (Recursive Feature Elimination with Cross-Validation)** to select the most predictive features.
+
+**Evaluation Metrics**
+- Confusion Matrix  
+![Confusion Matrix](path_to_confusion_matrix_image.png)
+- ROC-AUC Score
+- Precision, Recall, F1-score
+
+**Key Advantages of XGBoost**
+- Handles missing values natively.
+- Robust to outliers and multicollinearity.
+- Provides feature importance for actionable insights.
+
+---
 
 ## Insights and Next Steps
 
 ### Key Findings
-- Customers with **shorter tenure**, **fewer products**, and **high inactivity** were more likely to churn.
-- High **credit utilization** combined with lower credit limits indicated financial stress, leading to higher churn probability.
-- Drops in **transaction count** and **spending** were strong predictors of churn.
-- Demographic features such as **age** and **number of dependents** had minimal influence on churn.
+- **Shorter tenure** and **fewer products** → higher churn risk.
+- **High inactivity** and **high credit utilization** → strong indicators of churn.
+- **Drops in transaction amount and count** often precede attrition.
+- Demographics like **age** and **dependents** have limited predictive power.
 
 ### Next Steps
-1. **Monitor and Retrain Model Regularly**  
-   - Update the model with new customer data to maintain accuracy over time.
-2. **Deploy Real-Time Alerts**  
-   - Integrate predictions into banking dashboards to flag at-risk customers early.
+1. **Regular Model Retraining**  
+   - Keep the model updated with new data for reliable predictions.
+2. **Real-Time Alerts**  
+   - Flag high-risk customers for targeted retention campaigns.
 3. **Feature Expansion**  
-   - Incorporate additional engagement, product usage, and behavioral metrics for better accuracy.
-4. **Experiment with Ensemble Models**  
-   - Test other algorithms or ensembles for improved performance.
+   - Include additional behavioral and product usage metrics.
+4. **Experiment with Other Models**  
+   - Explore ensemble or neural network models to improve performance.
 5. **Business Integration**  
-   - Use insights to design targeted retention campaigns for customers with high churn probability.
+   - Deploy insights into CRM systems for actionable retention strategies.
+
+---
 
 ## Limitations
-- Limited by historical data; may not capture future behavior changes.
-- Model performance depends on data quality and completeness.
-- Some features (demographics) have low predictive power and may require additional behavioral data for improved predictions.
+- Results depend on historical data; may not reflect future behavior.
+- Limited predictive power of demographic features.
+- Data quality and completeness impact model accuracy.
+- Model generalizability may vary for other banks or regions.
+
+---
 
 ## Impact and Future Plans
-The model provides actionable insights for **reducing customer attrition** and optimizing banking strategies. Future enhancements include:
-- Integrating the model into a **Streamlit app** for easy use by business teams.
-- Continuously **monitoring model performance** and updating with new data.
-- Expanding the dataset with **external economic or behavioral indicators** to strengthen predictions.
+- The model supports **proactive customer retention** strategies.
+- Integration into a **Streamlit app** enables business users to predict churn easily.
+- Future improvements:
+  - Incorporating **economic and transactional trends**.
+  - Expanding features with behavioral analytics.
+  - Testing other **machine learning algorithms** for enhanced accuracy.
+
+---
 
 ## References
-- Kaggle customer churn datasets and related tutorials
-- XGBoost and Scikit-learn official documentation
-- Articles and tutorials on customer retention analytics
+- Kaggle customer churn datasets
+- XGBoost and Scikit-learn documentation
+- Tutorials and articles on supervised machine learning and churn analysis
+
+---
 
 ## Contact Information
-For questions or collaboration:
-- **Name:** Satelite Alison Ndayikunda
+- **Name:** Satelite Alison Ndayikunda  
 - **Email:** [satalisonn@gmail.com](mailto:satalisonn@gmail.com)
